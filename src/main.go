@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/NikosGour/game_engine/src/build"
+	"github.com/NikosGour/Game-Engine/src/build"
 )
 
 func main() {
