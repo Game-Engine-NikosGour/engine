@@ -1,4 +1,4 @@
-module github.com/NikosGour/game_engine
+module github.com/NikosGour/Game-Engine
 
 go 1.24.0
 
