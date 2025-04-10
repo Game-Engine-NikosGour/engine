@@ -62,7 +62,7 @@ if [ "$windows_flag" == "true" ]; then
 		run_flag=false
 	fi
 
-	windows_out_dir="/mnt/c/Users/$windows_user/Desktop/$project_name"
+	windows_out_dir="/mnt/c/Users/$windows_user/Desktop/game_engine/$project_name"
 	if [ ! -d "$windows_out_dir" ]; then
 		mkdir $windows_out_dir
 	fi
@@ -73,10 +73,18 @@ if [ "$windows_flag" == "true" ]; then
 		rm $out_dir/$out_name 2>/dev/null
 	fi
 
+	# add windows to the tags
+	if [ "$release_flag" == "true" ]; then
+		tags="-tags=windows_os"
+	else
+		tags="$tags,windows_os"
+	fi
+
 	echo "tags: $tags"
 	echo "Building for windows"
 	set -x
-	go list -f '{{.GoFiles}}' $tags ./src ./src/build
+
+	GOOS=windows go list -f '{{.GoFiles}}' $tags $project_dir/src $project_dir/src/lib $project_dir/src/lib/platform $project_dir/src/build
 	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go build -ldflags "$linker_flags" -o $out_dir/$out_name $tags ./src
 	mv $out_dir/$out_name $windows_out_dir
 	if [ "$release_flag" == "false" ]; then
@@ -89,10 +97,18 @@ else
 		echo "Cleaning previous file"
 		rm $project_dir/$out_dir/$out_name #2>/dev/null
 	fi
+
+	# add linux to the tags
+	if [ "$release_flag" == "true" ]; then
+		tags="-tags=linux_os"
+	else
+		tags="$tags,linux_os"
+	fi
+
 	echo "tags: $tags"
 	echo "Building for linux"
 	set -x
-	go list -f '{{.GoFiles}}' $tags $project_dir/src $project_dir/src/build
+	go list -f '{{.GoFiles}}' $tags $project_dir/src $project_dir/src/lib $project_dir/src/lib/platform $project_dir/src/build
 
 	go build -ldflags "$linker_flags" -o $project_dir/$out_dir/$out_name $tags $project_dir/src
 	set +x
