@@ -1,6 +1,10 @@
-github.com/NikosGour/logging v0.1.4 h1:sbUn9+/23Be2g+0tU6iR4eLoOHKoNgdl7OyBfCGF7kc=
-github.com/NikosGour/logging v0.1.4/go.mod h1:LAqi5AhghslpJwTIukrAdgCMNpN9g3uZ6uLqEHCUBvc=
-github.com/vulkan-go/vulkan v0.0.0-20221209234627-c0a353ae26c8 h1:qPHDyQTLtn40kezY6y4UL7bH7Z0Im9wSu1tQtM2wbUU=
+github.com/NikosGour/logging v0.1.6 h1:SqqWcAGABK47MK51dWHXhBoMMA9tyQZrj8JLdDmwqnc=
+github.com/NikosGour/logging v0.1.6/go.mod h1:LAqi5AhghslpJwTIukrAdgCMNpN9g3uZ6uLqEHCUBvc=
+github.com/lxn/win v0.0.0-20210218163916-a377121e959e h1:H+t6A/QJMbhCSEH5rAuRxh+CtW96g0Or0Fxa9IKr4uc=
+github.com/lxn/win v0.0.0-20210218163916-a377121e959e/go.mod h1:KxxjdtRkfNoYDCUP5ryK7XJJNTnpC8atvtmTheChOtk=
 github.com/vulkan-go/vulkan v0.0.0-20221209234627-c0a353ae26c8/go.mod h1:Y5Ti1uUBdKDsb0W8aPtIo9krs+29Y7p6Bc9yyy4AM6g=
 gitlab.com/metakeule/fmtdate v1.2.2 h1:ce0Qnwo6PAONi6xwPr4YxdxAFIKqNfoMbHG4c49vIjk=
 gitlab.com/metakeule/fmtdate v1.2.2/go.mod h1:uZUf21xepWGLp6PgJGBbHeBVWO+/gsKi3Gdh0Fu4lGg=
+golang.org/x/sys v0.0.0-20201018230417-eeed37f84f13/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.32.0 h1:s77OFDvIQeibCmezSnk/q6iAfkdiQaJi4VzroCFrN20=
+golang.org/x/sys v0.32.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
