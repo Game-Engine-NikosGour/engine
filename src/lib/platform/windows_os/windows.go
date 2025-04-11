@@ -5,6 +5,8 @@ package windows_os
 //go:generate go run golang.org/x/sys/windows/mkwinsyscall -output syscalls.go syscall_definitions.go
 
 import (
+	"fmt"
+
 	platform "github.com/NikosGour/Game-Engine/src/lib/platform/types"
 	log "github.com/NikosGour/logging/src"
 	winapi "golang.org/x/sys/windows"
@@ -29,10 +31,9 @@ func Platform_startup_windows(platform_state *platform.PlatformState, app_name s
 
 	handle, err := GetModuleHandleA(nil)
 	if err != nil {
-		log.Error("Couldn't GetModuleHandleA: `%s`", err)
+		return fmt.Errorf("Couldn't GetModuleHandleA: `%s`", err)
 	}
 	log.Debug("handle=%#v", handle)
-	log.Debug("Loaded GetModuleHandleA")
 
 	// unload_windows_api()
 	return nil
