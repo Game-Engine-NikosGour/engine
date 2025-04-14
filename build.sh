@@ -77,10 +77,18 @@ fi
 
 # check if parameter one exist and is equal to "windows"
 if [ "$windows_flag" == "true" ]; then
+	# add windows to the tags
+	if [ "$release_flag" == "true" ]; then
+		tags="-tags=windows_os"
+	else
+		tags="$tags,windows_os"
+	fi
+
 	subdir="engine"
-	windows_out_dir="/mnt/c/Users/$windows_user/Desktop/$project_name/$subdir"
+	windows_out_dir="/mnt/c/Users/$windows_user/Desktop/go_projects/$project_name/$subdir"
 	if [ ! -d "$windows_out_dir" ]; then
-		mkdir $windows_out_dir
+		log_info "Creating directory $windows_out_dir"
+		mkdir -p $windows_out_dir
 	fi
 	out_name="$out_name.exe"
 
@@ -117,15 +125,10 @@ if [ "$windows_flag" == "true" ]; then
 
 	if [ "$run_flag" == "true" ]; then
 		log_info "Running the built file"
-		powershell.exe -command "C:/Users/$windows_user/Desktop/game_engine/$subdir/$out_name"
+		powershell.exe -command "C:/Users/$windows_user/Desktop/go_projects/$project_name/$subdir/$out_name"
 	fi
 
 else
-	if [ "$clean_flag" == "true" ]; then
-		echo "Cleaning previous file"
-		rm $project_dir/$out_dir/$out_name #2>/dev/null
-	fi
-
 	# add linux to the tags
 	if [ "$release_flag" == "true" ]; then
 		tags="-tags=linux_os"
@@ -133,15 +136,33 @@ else
 		tags="$tags,linux_os"
 	fi
 
+	if [ "$clean_flag" == "true" ]; then
+		log_info "Cleaning previous file"
+		rm $project_dir/$out_dir/$out_name #2>/dev/null
+	fi
+
 	echo "tags: $tags"
-	echo "Building for linux"
-	go list -f '{{.GoFiles}}' $tags $project_dir/src $project_dir/src/lib $project_dir/src/lib/platform $project_dir/src/build
 
-	go build -ldflags "$linker_flags" -o $project_dir/$out_dir/$out_name $tags $project_dir/src
-fi
+	log_info "Packages to build:"
+	go list -f '{{.GoFiles}}' $tags $project_dir/src $project_dir/src/build
 
-printf "Done Building\n---------------------------------\n\n\n"
+	log_info "Building for linux"
+	error_output=$(go build -ldflags "$linker_flags" -o $project_dir/$out_dir/$out_name $tags $project_dir/src)
 
-if [ "$run_flag" == "true" ]; then
-	$project_dir/$out_dir/$out_name
+	if [ $? -ne 0 ]; then
+		log_error "Build failed with error:"
+		echo "----------------------------------"
+		echo "$error_output"
+		exit 1
+	else
+		log_success "Build succeeded"
+	fi
+
+	log_success "Done Building"
+	echo "---------------------------------"
+
+	if [ "$run_flag" == "true" ]; then
+		log_info "Running the built file"
+		$project_dir/$out_dir/$out_name
+	fi
 fi
