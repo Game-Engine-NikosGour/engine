@@ -1,0 +1,2 @@
+- [ ] Abstract the c interop from the platform code
+- [ ] Make readme's for both the projects
