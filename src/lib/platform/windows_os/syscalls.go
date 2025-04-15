@@ -39,12 +39,33 @@ func errnoErr(e syscall.Errno) error {
 
 var (
 	modkernel32 = windows.NewLazySystemDLL("kernel32.dll")
+	moduser32   = windows.NewLazySystemDLL("user32.dll")
 
 	procGetModuleHandleA = modkernel32.NewProc("GetModuleHandleA")
+	procLoadCursorA      = moduser32.NewProc("LoadCursorA")
+	procLoadIconA        = moduser32.NewProc("LoadIconA")
 )
 
 func GetModuleHandleA(module_name *byte) (handle windows.Handle, err error) {
 	r0, _, e1 := syscall.Syscall(procGetModuleHandleA.Addr(), 1, uintptr(unsafe.Pointer(module_name)), 0, 0)
+	handle = windows.Handle(r0)
+	if handle == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func LoadCursorA(hInstance windows.Handle, szCursorName *byte) (handle windows.Handle, err error) {
+	r0, _, e1 := syscall.Syscall(procLoadCursorA.Addr(), 2, uintptr(hInstance), uintptr(unsafe.Pointer(szCursorName)), 0)
+	handle = windows.Handle(r0)
+	if handle == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func LoadIconA(hInstance windows.Handle, szIconName *byte) (handle windows.Handle, err error) {
+	r0, _, e1 := syscall.Syscall(procLoadIconA.Addr(), 2, uintptr(hInstance), uintptr(unsafe.Pointer(szIconName)), 0)
 	handle = windows.Handle(r0)
 	if handle == 0 {
 		err = errnoErr(e1)

@@ -1,5 +1,7 @@
 package platform
 
+import "unsafe"
+
 type PlatformState struct {
-	Internal_state interface{}
+	Internal_state unsafe.Pointer
 }
